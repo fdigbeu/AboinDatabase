@@ -1,23 +1,30 @@
 <?php
-include_once("fonctions.php");
+include_once("resultat-liste-commande.php");
 
-// TRAITEMENT TGLAIN EXC
+$page = isset($_GET["f"]) ? str_ireplace("-", " ", $_GET["f"]) : "";
+$resultText = array();
+$finalResultText = array();
 
-$newLoadContent = array();
-$tableItem = array();
-$loadContent = lireFichier("uploads/aboin-customer.txt");
-
-foreach($loadContent as $key => $value){
-	if(!empty(trim($value))){
-		$tableItem[] = $value;
-		if(trim($value) == "TRAITEMENT TGLAIN EXC"){
-				$newLoadContent[] = $tableItem;
-				$tableItem = array();
+foreach ($newLoadContent as $key => $value){
+	$resultText[] = getAboinInfos($value);
+}
+//--
+foreach ($resultText as $key => $value){
+	if(count($value) > 0){
+		if($page == ""){
+			$finalResultText[] = $value;
+		}
+		else{
+			if($page == trim($value["TYPE_VALUE"])){
+				$finalResultText[] = $value;
+			}
 		}
 	}
 }
-
-echo "<pre>";
-print_r($newLoadContent);
-echo "</pre>";
+//--
+if(isset($_GET["p"]) && $_GET["p"] == 3){
+	echo "<pre>";
+	print_r($finalResultText);
+	echo "</pre>";
+}
 ?>

@@ -9,9 +9,14 @@
 <body>
 
 ABOIN : Chargez le fichier texte:
+
 <div style="padding: 10px;">
-<a id="resultat-attendu" target="_blank" href="resultat-attendu.php">RESULTAT ABOIN</a>
+<a id="resultat-liste-commande" target="_blank" href="resultat-liste-commande.php?p=1">LISTE COMMANDES</a> -
+<!-- <a id="test" target="_blank" href="test.php?p=2">TEST CHAMPS TABLEAU</a> -->
+<a id="resultat-attendu" target="_blank" href="resultat-attendu.php?p=3">RESULTAT ATTENDU</a> - 
+<a id="resultat-attendu-html" target="_blank" href="resultat-attendu-html.php">RESULTAT ATTENDU EN HTML</a>
 </div>
+
 <div id="mulitplefileuploader">Parcourir</div>
 
 <div id="status"></div>
