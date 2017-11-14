@@ -22,6 +22,22 @@ foreach ($resultText as $key => $value){
 	}
 }
 //--
+$finalPagination = array();
+$valueByPage = 500;
+$cmptNumber = 0;
+$cmptPage = 0;
+//--
+foreach ($finalResultText as $key => $value){
+	$cmptNumber++;
+	if($cmptNumber <= $valueByPage){
+		$finalPagination[$cmptPage][] = $value;
+		if($cmptNumber == $valueByPage){
+			$cmptNumber = 0;
+			$cmptPage++;
+		}
+	}
+}
+//--
 if(isset($_GET["p"]) && $_GET["p"] == 3){
 	echo "<pre>";
 	print_r($finalResultText);

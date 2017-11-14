@@ -1,23 +1,52 @@
 <?php
 include_once("resultat-attendu.php");
 
+$pagination = isset($_GET["pagination"]) ? $_GET["pagination"] : 1;
+
+$pageFiltrage = isset($_GET["f"]) ? $_GET["f"] : "";
+
+$listToDisplay = $finalPagination[$pagination-1];
+
+//echo count($finalPagination);
+
+//echo "<pre>"; print_r($finalPagination[$pagination-1]); echo "</pre>"; exit();
+
 ?>
+<h3 style="display: block; text-align: center;"><?php echo (empty($pageFiltrage) ? "Tout afficher" : $pageFiltrage); ?> (Total = <?php echo count($finalResultText); ?>)</h3>
+<div style="padding: 5px;  border: 2px solid #000; text-align: center;">
+	<?php 
+	$totalDesPages = count($finalPagination);
+	for($i=1; $i <= $totalDesPages; $i++){
+		if(empty($pageFiltrage)){
+			$linkPage = "?pagination=$i";
+		}
+		else{
+			$linkPage = "?f=$pageFiltrage&pagination=$i";
+		}
+		//--
+		$styleLink = $pagination == $i ? "padding: 3px; background: #000; color: #FFF;" : "";
+		?>
+		<a style="<?php echo $styleLink; ?> text-decoration: none;" href="<?php echo $linkPage; ?>"><?php echo $i; ?></a> &nbsp;&nbsp;&nbsp;
+		<?php
+	}
+	?>
+</div>
 <table style="width: 100%;">
   <tr>
     <th style="width: 50%;">
     	<fieldset style="padding: 5px;">
     		<legend style="margin-left: 100px;">MONOLINE</legend>
     		<div style="padding: 2px; text-align: center;">
-    			<a href="?f=POTS-monoline">POTS</a> &nbsp;|&nbsp; <a href="?f=T0-monoline">T0</a> &nbsp;|&nbsp; <a href="?f=T2-monoline">T2</a>
+    			<a href="?f=POTS-monoline&pagination=1">POTS</a> &nbsp;|&nbsp; <a href="?f=T0-monoline&pagination=1">T0</a> &nbsp;|&nbsp; <a href="?f=T2-monoline&pagination=1">T2</a>
     		</div>
     	</fieldset>
     </th>
-    <th><a href="resultat-attendu-html.php">TOUT AFFICHER</a></th>
+    <th><a href="resultat-attendu-html.php?pagination=1">TOUT AFFICHER</a></th>
     <th style="width: 50%;">
     	<fieldset style="padding: 5px;">
     		<legend style="margin-left: 100px;">MULTILINE</legend>
     		<div style="padding: 2px; text-align: center;">
-    			<a href="?f=POTS-multiline">POTS</a> &nbsp;|&nbsp; <a href="?f=T0-multiline">T0</a> &nbsp;|&nbsp; <a href="?f=T2-multiline">T2</a>
+    			<a href="?f=POTS-multiline&pagination=1">POTS</a> &nbsp;|&nbsp; <a href="?f=T0-multiline&pagination=1">T0</a> &nbsp;|&nbsp; <a href="?f=T2-multiline&pagination=1">T2</a>
     		</div>
     	</fieldset>
     </th>
@@ -25,7 +54,7 @@ include_once("resultat-attendu.php");
 </table>
 <?php
 
-if(count($finalResultText) > 0){
+if(count($listToDisplay) > 0){
 	?>
 <table border="1" style="width: 100%;">
    <tr>
@@ -43,7 +72,7 @@ if(count($finalResultText) > 0){
        <th>ACH</th>
    </tr>
    <?php 
-   foreach ($finalResultText as $key => $value){
+   foreach ($listToDisplay as $key => $value){
    	$TYPE_VALUE = $value["TYPE_VALUE"];
    	$NDG_VALUE = $value["NDG_VALUE"];
    	$NDS_VALUE = $value["NDS_VALUE"];
@@ -132,8 +161,6 @@ if(count($finalResultText) > 0){
        <td valign="top" title="ACH"><input readonly="readonly" type="text" value="<?php echo $ACH_VALUE; ?>" /></td>
    </tr>
    	<?php
-   	//MAX = 50;
-   	if($key == 1000) break;
    }
    ?>
 </table>
